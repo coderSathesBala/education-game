@@ -14,6 +14,11 @@ class Player {
             y: 0
         }
 
+        this.position = {
+            x: 0,
+            y: 0
+        }
+
         const image = new Image()
         image.src = './img/car.jpg'
         image.onload = () => {            
@@ -50,17 +55,19 @@ class Player {
 
 class Platform {
     constructor() {
+        this.position = {
+            x: canvas.width/2,
+            y: canvas.height/2
+        }
+
         const image = new Image()
         image.src = './img/platform.png'
         image.onload = () => {            
-            this.image = image
+            this.image = image,
             this.width = image.width,
             this.height = image.height
         
-            this.position = {
-                x: canvas.width/5,
-                y: canvas.height/2
-            }
+
         }
     }
 
@@ -106,10 +113,15 @@ function animate() {
     }
 
     if (keys.ArrowUp.pressed) {
-        player.velocity.y = 5
+        player.velocity.y = 25
     } else {
         player.velocity.y = 0
     }
+
+    if (keys.ArrowRight.pressed && player.position.x > 700) {
+        player.velocity.x = 0
+        platform.position.x -=5
+    } 
 }
 
 animate()
