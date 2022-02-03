@@ -39,6 +39,7 @@ class Player {
             this.draw()
             this.position.x += this.velocity.x
             this.position.y -= this.velocity.y
+
             if(this.position.y < canvas.height/1.4) {
                 this.position.y += gravity
             }
@@ -47,10 +48,41 @@ class Player {
     }
 }
 
+class Platform {
+    constructor() {
+        const image = new Image()
+        image.src = './img/platform.png'
+        image.onload = () => {            
+            this.image = image
+            this.width = image.width,
+            this.height = image.height
+        
+            this.position = {
+                x: canvas.width/5,
+                y: canvas.height/2
+            }
+        }
+    }
+
+    draw() {
+        // c.fillStyle = 'red'
+        // c.fillRect(this.position.x, this.position.y, this.width, this.height)
+        c.drawImage(this.image, this.position.x, this.position.y, this.width, this.height)
+    }
+
+    update() {
+        if (this.image) {
+            this.draw()
+        }
+    }
+}
+
 
 
 
 const player = new Player()
+const platform = new Platform()
+
 const keys = {
     'ArrowRight': {
         pressed: false
@@ -64,6 +96,7 @@ function animate() {
     requestAnimationFrame(animate)
     c.fillStyle = 'gray'
     c.fillRect(0, 0, canvas.width, canvas.height)
+    platform.update()
     player.update()
 
     if (keys.ArrowRight.pressed) {
