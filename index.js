@@ -1,6 +1,7 @@
 const canvas = document.querySelector('canvas')
 const c = canvas.getContext('2d')
 
+
 canvas.width = innerWidth
 canvas.height = innerHeight
 const nextPlatform = canvas.width/1.5
@@ -8,6 +9,7 @@ let gravity = 10
 
 class Player {
     constructor() {
+        
         
         this.velocity = {
             x: 0,
@@ -28,26 +30,27 @@ class Player {
         
             this.position = {
                 x: canvas.width/20,
-                y: canvas.height/1.4
+                y: canvas.height/1.6
             }
         }
     }
 
     draw() {
-        // c.fillStyle = 'red'
-        // c.fillRect(this.position.x, this.position.y, this.width, this.height)
         c.drawImage(this.image, this.position.x, this.position.y, this.width, this.height)
     }
 
     update() {
+        
         if (this.image) {
             this.draw()
             this.position.x += this.velocity.x
             this.position.y -= this.velocity.y
 
-            if(this.position.y < canvas.height/1.4) {
+            if(this.position.y < canvas.height/1.6) {
                 this.position.y += gravity
             }
+
+            if(this.position.y < 10) {this.position.y = 10}
         }
 
     }
@@ -70,8 +73,6 @@ class Platform {
     }
 
     draw() {
-        // c.fillStyle = 'red'
-        // c.fillRect(this.position.x, this.position.y, this.width, this.height)
         c.drawImage(this.image, this.position.x, this.position.y, this.width, this.height)
     }
 
@@ -106,8 +107,16 @@ const keys = {
 
 function animate() {
     requestAnimationFrame(animate)
-    c.fillStyle = 'gray'
-    c.fillRect(0, 0, canvas.width, canvas.height)
+    const image = new Image(200, 'auto')
+    image.src = './img/backgroundImage.jpg'
+    let scoreboard = 0
+    c.font = "7rem Arial";
+c.fillText(scoreboard, 50, 150);
+
+    image.addEventListener('load', e => {
+        c.drawImage(image, 0, 0, canvas.width, canvas.height/1.38, 0, 0, canvas.width, canvas.height);
+      });
+
     platforms.forEach(platform => {
         platform.update()
     })
