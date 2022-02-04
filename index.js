@@ -3,8 +3,8 @@ const c = canvas.getContext('2d')
 
 canvas.width = innerWidth
 canvas.height = innerHeight
-
-const gravity = 2
+const nextPlatform = canvas.width/1.5
+let gravity = 10
 
 class Player {
     constructor() {
@@ -54,10 +54,10 @@ class Player {
 }
 
 class Platform {
-    constructor() {
+    constructor({x, y}) {
         this.position = {
-            x: canvas.width/2,
-            y: canvas.height/2
+            x: x,
+            y: y
         }
 
         const image = new Image()
@@ -66,8 +66,6 @@ class Platform {
             this.image = image,
             this.width = image.width,
             this.height = image.height
-        
-
         }
     }
 
@@ -88,7 +86,14 @@ class Platform {
 
 
 const player = new Player()
-const platform = new Platform()
+const platforms = [
+    new Platform({x:canvas.width/2, y:canvas.height/2}), 
+    new Platform({ x:canvas.width/2 + nextPlatform*1, y:canvas.height/3}),
+    new Platform({ x:canvas.width/2 + nextPlatform*2, y:canvas.height/4}),
+    new Platform({ x:canvas.width/2 + nextPlatform*3, y:canvas.height/2}),
+    new Platform({ x:canvas.width/2 + nextPlatform*4, y:canvas.height/3}),
+    new Platform({ x:canvas.width/2 + nextPlatform*5, y:canvas.height/2})
+]
 
 const keys = {
     'ArrowRight': {
@@ -103,11 +108,13 @@ function animate() {
     requestAnimationFrame(animate)
     c.fillStyle = 'gray'
     c.fillRect(0, 0, canvas.width, canvas.height)
-    platform.update()
+    platforms.forEach(platform => {
+        platform.update()
+    })
     player.update()
 
     if (keys.ArrowRight.pressed) {
-        player.velocity.x = 5
+        player.velocity.x = 10
     } else {
         player.velocity.x = 0
     }
@@ -120,8 +127,22 @@ function animate() {
 
     if (keys.ArrowRight.pressed && player.position.x > 700) {
         player.velocity.x = 0
-        platform.position.x -=5
-    } 
+        platforms.forEach(platform => {
+            platform.position.x -= 20
+        })
+    }
+
+    //collision detection
+    // platforms.forEach(platform => {
+    //     if(player.position.y + player.height <= platform.position.y 
+    //         && player.position.y + player.height + player.velocity.y >= platform.position.y
+    //         && player.position.x + player.width >= platform.position.x
+    //         && player.position.x <= platform.position.x + platform.width
+    //         ) {
+    //         player.velocity.y = 0
+    //         gravity=0
+    //     } 
+    // })
 }
 
 animate()
