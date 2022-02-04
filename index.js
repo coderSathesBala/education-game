@@ -6,6 +6,7 @@ canvas.width = innerWidth
 canvas.height = innerHeight
 const nextPlatform = canvas.width/1.5
 let gravity = 10
+var distance = 0
 
 class Player {
     constructor() {
@@ -43,6 +44,7 @@ class Player {
         
         if (this.image) {
             this.draw()
+            
             this.position.x += this.velocity.x
             this.position.y -= this.velocity.y
 
@@ -78,6 +80,9 @@ class Platform {
 
     update() {
         if (this.image) {
+            if(this.position.x < -6000){
+                distance = this.position.x
+            }
             this.draw()
         }
     }
@@ -111,11 +116,19 @@ function animate() {
     image.src = './img/backgroundImage.jpg'
     let scoreboard = 0
     c.font = "7rem Arial";
-c.fillText(scoreboard, 50, 150);
-
+    c.fillText(scoreboard, 50, 150);
+    
+    
     image.addEventListener('load', e => {
         c.drawImage(image, 0, 0, canvas.width, canvas.height/1.38, 0, 0, canvas.width, canvas.height);
-      });
+    });
+    
+    if(distance < -6000) {
+        c.clearRect(0, 0, canvas.width, canvas.height);
+        c.fillText('YOUR SCORE IS:', 50, 150);
+        c.fillText(scoreboard, 500, 500)
+        console.log('ok')
+    }
 
     platforms.forEach(platform => {
         platform.update()
@@ -123,7 +136,7 @@ c.fillText(scoreboard, 50, 150);
     player.update()
 
     if (keys.ArrowRight.pressed) {
-        player.velocity.x = 10
+        player.velocity.x = 100
     } else {
         player.velocity.x = 0
     }
@@ -159,11 +172,9 @@ animate()
 addEventListener('keydown', ({key}) => {
     switch (key) {
         case 'ArrowRight':
-            console.log('right')
             keys.ArrowRight.pressed = true
             break
         case 'ArrowUp':
-            console.log('up')
             keys.ArrowUp.pressed = true
             break
     }
@@ -172,11 +183,9 @@ addEventListener('keydown', ({key}) => {
 addEventListener('keyup', ({key}) => {
     switch (key) {
         case 'ArrowRight':
-            console.log('right')
             keys.ArrowRight.pressed = false
             break
         case 'ArrowUp':
-            console.log('up')
             keys.ArrowUp.pressed = false
             break
     }
