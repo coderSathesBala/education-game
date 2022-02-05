@@ -23,11 +23,11 @@ class Player {
         }
 
         const image = new Image()
-        image.src = './img/car.jpg'
+        image.src = './img/car.png'
         image.onload = () => {            
             this.image = image
-            this.width = image.width,
-            this.height = image.height
+            this.width = 300,
+            this.height = 200
         
             this.position = {
                 x: canvas.width/20,
@@ -76,6 +76,7 @@ class Platform {
 
     draw() {
         c.drawImage(this.image, this.position.x, this.position.y, this.width, this.height)
+        
     }
 
     update() {
@@ -136,7 +137,7 @@ function animate() {
     player.update()
 
     if (keys.ArrowRight.pressed) {
-        player.velocity.x = 100
+        player.velocity.x = 10
     } else {
         player.velocity.x = 0
     }
@@ -155,16 +156,16 @@ function animate() {
     }
 
     //collision detection
-    // platforms.forEach(platform => {
-    //     if(player.position.y + player.height <= platform.position.y 
-    //         && player.position.y + player.height + player.velocity.y >= platform.position.y
-    //         && player.position.x + player.width >= platform.position.x
-    //         && player.position.x <= platform.position.x + platform.width
-    //         ) {
-    //         player.velocity.y = 0
-    //         gravity=0
-    //     } 
-    // })
+    platforms.forEach(platform => {
+        if(player.position.y + player.height <= platform.position.y 
+            && player.position.y + player.height + player.velocity.y >= platform.position.y
+            && player.position.x + player.width >= platform.position.x
+            && player.position.x <= platform.position.x + platform.width
+            ) {
+            player.velocity.y = 0
+            gravity = 0
+        } 
+    })
 }
 
 animate()
