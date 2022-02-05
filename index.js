@@ -44,18 +44,16 @@ class Player {
         
         if (this.image) {
             this.draw()
-            
             this.position.x += this.velocity.x
             this.position.y -= this.velocity.y
 
             if(this.position.y < canvas.height/1.6) {
                 this.position.y += gravity
             }
-
-            if(this.position.y < 10) {this.position.y = 10}
-        }
+ 
 
     }
+}
 }
 
 class Platform {
@@ -69,7 +67,7 @@ class Platform {
         image.src = './img/platform.png'
         image.onload = () => {            
             this.image = image,
-            this.width = image.width,
+            this.width = 600,
             this.height = image.height
         }
     }
@@ -128,7 +126,6 @@ function animate() {
         c.clearRect(0, 0, canvas.width, canvas.height);
         c.fillText('YOUR SCORE IS:', 50, 150);
         c.fillText(scoreboard, 500, 500)
-        console.log('ok')
     }
 
     platforms.forEach(platform => {
@@ -149,24 +146,12 @@ function animate() {
     }
 
     if (keys.ArrowRight.pressed && player.position.x > 700) {
-        player.velocity.x = 0
+        player.velocity.x = 1
         platforms.forEach(platform => {
             platform.position.x -= 20
         })
     }
 
-    //collision detection
-    platforms.forEach(platform => {
-        if(player.position.y + player.height <= 
-            platform.position.y && 
-            player.position.y + player.height + 
-            player.velocity.y >= platform.
-            position.y && player.position.x + 
-            player.width >= platform.position.x
-            ) {
-            player.velocity.y = 0
-        } 
-    })
 }
 
 animate()
@@ -175,6 +160,7 @@ addEventListener('keydown', ({key}) => {
     switch (key) {
         case 'ArrowRight':
             keys.ArrowRight.pressed = true
+            distance++
             break
         case 'ArrowUp':
             keys.ArrowUp.pressed = true
