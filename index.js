@@ -63,6 +63,8 @@ class Platform {
             y: y
         }
 
+        this.specify = specify
+
         const image = new Image()
         image.src = './img/platform.png'
         image.onload = () => {            
@@ -92,12 +94,12 @@ class Platform {
 
 const player = new Player()
 const platforms = [
-    new Platform({x:canvas.width/2, y:canvas.height/2}), 
-    new Platform({ x:canvas.width/2 + nextPlatform*1, y:canvas.height/3}),
-    new Platform({ x:canvas.width/2 + nextPlatform*2, y:canvas.height/4}),
-    new Platform({ x:canvas.width/2 + nextPlatform*3, y:canvas.height/2}),
-    new Platform({ x:canvas.width/2 + nextPlatform*4, y:canvas.height/3}),
-    new Platform({ x:canvas.width/2 + nextPlatform*5, y:canvas.height/2})
+    new Platform({x:canvas.width/2, y:canvas.height/2}, specify='one'), 
+    new Platform({ x:canvas.width/2 + nextPlatform*1, y:canvas.height/3}, specify='two'),
+    new Platform({ x:canvas.width/2 + nextPlatform*2, y:canvas.height/4}, specify='three'),
+    new Platform({ x:canvas.width/2 + nextPlatform*3, y:canvas.height/2}, specify='four'),
+    new Platform({ x:canvas.width/2 + nextPlatform*4, y:canvas.height/3}, specify='five'),
+    new Platform({ x:canvas.width/2 + nextPlatform*5, y:canvas.height/2}, specify='six')
 ]
 
 const keys = {
@@ -152,6 +154,65 @@ function animate() {
         })
     }
 
+    //   collision detection
+
+    platforms.forEach(platform => {
+        if(player.position.y + player.height <= platforms[0].position.y + 15 
+            && player.position.y + player.height >= platforms[0].position.y 
+            && player.position.x + player.width >= platforms[0].position.x
+            && player.position.x <= platforms[0].position.x + platforms[0].width
+            ) {
+                gravity = 0
+        }
+        else if(
+            player.position.y + player.height <= platforms[1].position.y + 15 
+            && player.position.y + player.height >= platforms[1].position.y
+            && player.position.x + player.width >= platforms[1].position.x
+            && player.position.x <= platforms[1].position.x + platforms[1].width
+            && platforms[1].position.x <= 1000
+            ) {
+                gravity = 0
+        }
+        else if(
+            player.position.y + player.height <= platforms[2].position.y + 15 
+            && player.position.y + player.height >= platforms[2].position.y
+            && player.position.x + player.width >= platforms[2].position.x
+            && player.position.x <= platforms[2].position.x + platforms[2].width
+            && platforms[2].position.x <= 1000
+            ) {
+                gravity = 0
+        }
+        else if(
+            player.position.y + player.height <= platforms[3].position.y + 15 
+            && player.position.y + player.height >= platforms[3].position.y
+            && player.position.x + player.width >= platforms[3].position.x
+            && player.position.x <= platforms[3].position.x + platforms[3].width
+            && platforms[3].position.x <= 1000
+            ) {
+                gravity = 0
+        }
+        else if(
+            player.position.y + player.height <= platforms[4].position.y + 15 
+            && player.position.y + player.height >= platforms[4].position.y
+            && player.position.x + player.width >= platforms[4].position.x
+            && player.position.x <= platforms[4].position.x + platforms[4].width
+            && platforms[4].position.x <= 1000
+            ) {
+                gravity = 0
+        }
+        else if(
+            player.position.y + player.height <= platforms[5].position.y + 15 
+            && player.position.y + player.height >= platforms[5].position.y
+            && player.position.x + player.width >= platforms[5].position.x
+            && player.position.x <= platforms[5].position.x + platforms[5].width
+            && platforms[5].position.x <= 1000
+            ) {
+                gravity = 0
+        }
+        else {
+            gravity = 5
+        }
+    })
 }
 
 animate()
