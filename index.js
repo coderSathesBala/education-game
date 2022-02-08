@@ -1,7 +1,5 @@
 const canvas = document.querySelector('canvas')
 const c = canvas.getContext('2d')
-
-
 canvas.width = innerWidth
 canvas.height = innerHeight
 const nextPlatform = canvas.width/1.5
@@ -10,8 +8,6 @@ var distance = 0
 
 class Player {
     constructor() {
-        
-        
         this.velocity = {
             x: 0,
             y: 0
@@ -28,7 +24,6 @@ class Player {
             this.image = image
             this.width = 300,
             this.height = 200
-        
             this.position = {
                 x: canvas.width/20,
                 y: canvas.height/1.6
@@ -41,7 +36,6 @@ class Player {
     }
 
     update() {
-        
         if (this.image) {
             this.draw()
             this.position.x += this.velocity.x
@@ -50,10 +44,8 @@ class Player {
             if(this.position.y < canvas.height/1.6) {
                 this.position.y += gravity
             }
- 
-
+        }
     }
-}
 }
 
 class Platform {
@@ -62,9 +54,6 @@ class Platform {
             x: x,
             y: y
         }
-
-        this.specify = specify
-
         const image = new Image()
         image.src = './img/platform.png'
         image.onload = () => {            
@@ -94,12 +83,12 @@ class Platform {
 
 const player = new Player()
 const platforms = [
-    new Platform({x:canvas.width/2, y:canvas.height/2}, specify='one'), 
-    new Platform({ x:canvas.width/2 + nextPlatform*1, y:canvas.height/3}, specify='two'),
-    new Platform({ x:canvas.width/2 + nextPlatform*2, y:canvas.height/4}, specify='three'),
-    new Platform({ x:canvas.width/2 + nextPlatform*3, y:canvas.height/2}, specify='four'),
-    new Platform({ x:canvas.width/2 + nextPlatform*4, y:canvas.height/3}, specify='five'),
-    new Platform({ x:canvas.width/2 + nextPlatform*5, y:canvas.height/2}, specify='six')
+    new Platform({x:canvas.width/2, y:canvas.height/2}), 
+    new Platform({ x:canvas.width/2 + nextPlatform*1, y:canvas.height/3}),
+    new Platform({ x:canvas.width/2 + nextPlatform*2, y:canvas.height/4}),
+    new Platform({ x:canvas.width/2 + nextPlatform*3, y:canvas.height/2}),
+    new Platform({ x:canvas.width/2 + nextPlatform*4, y:canvas.height/3}),
+    new Platform({ x:canvas.width/2 + nextPlatform*5, y:canvas.height/2})
 ]
 
 const keys = {
@@ -115,19 +104,15 @@ function animate() {
     requestAnimationFrame(animate)
     const image = new Image(200, 'auto')
     image.src = './img/backgroundImage.jpg'
-    let scoreboard = 0
     c.font = "7rem Arial";
-    c.fillText(scoreboard, 50, 150);
-    
     
     image.addEventListener('load', e => {
         c.drawImage(image, 0, 0, canvas.width, canvas.height/1.38, 0, 0, canvas.width, canvas.height);
     });
     
-    if(distance < -6000) {
+    if(platforms[5].position.x <= (-canvas.width/2)) {
         c.clearRect(0, 0, canvas.width, canvas.height);
-        c.fillText('YOUR SCORE IS:', 50, 150);
-        c.fillText(scoreboard, 500, 500)
+        c.fillText('THE END', 50, 100);
     }
 
     platforms.forEach(platform => {
@@ -153,8 +138,6 @@ function animate() {
             platform.position.x -= 20
         })
     }
-
-    //   collision detection
 
     platforms.forEach(platform => {
         if(player.position.y + player.height <= platforms[0].position.y + 15 
